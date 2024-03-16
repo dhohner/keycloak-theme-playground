@@ -56,7 +56,7 @@ export default function LoginTan(
             <div>
               <hr />
               <div className="mx-auto max-w-[368px] pt-5 text-2xl">
-                Wir haben Ihnen ihr Einmalpasswort per SMS zugeschickt. Bitte
+                Wir haben Ihnen Ihr Einmalpasswort per SMS zugeschickt. Bitte
                 geben Sie dieses nun einfach ein.
               </div>
               <div className="mx-auto flex max-w-[368px] flex-col pt-5">
@@ -100,15 +100,18 @@ export default function LoginTan(
                 />
               </div>
             </div>
-            <div className="mx-auto max-w-[368px] pt-5 text-2xl">
-              Haben Sie Probleme beim Login? Dann klicken Sie einfach{" "}
-              <a
-                tabIndex={2}
-                className="cursor-pointer font-bold text-slate-800"
-              >
-                hier
-              </a>{" "}
-              und wir versenden ein neues Passwort!
+            <div className="mx-auto max-w-[368px] pt-8 text-2xl">
+              <hr />
+              <div className="pt-8">
+                Haben Sie Probleme beim Login? Dann klicken Sie einfach{" "}
+                <a
+                  tabIndex={3}
+                  className="cursor-pointer font-bold text-slate-800"
+                >
+                  hier
+                </a>{" "}
+                und wir versenden ein neues Passwort!
+              </div>
             </div>
             {realm.resetPasswordAllowed && (
               <div className="mx-auto max-w-[368px] pt-5 text-2xl">
@@ -125,7 +128,7 @@ export default function LoginTan(
             )}
             <div id="kc-form-buttons" className="mx-auto max-w-[420px]">
               <Button
-                tabIndex={3}
+                tabIndex={2}
                 className="h-14 w-full text-2xl"
                 name="login"
                 id="kc-login"
