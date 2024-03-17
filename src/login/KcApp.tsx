@@ -45,28 +45,28 @@ export default function KcApp(props: { kcContext: KcContext }) {
           case "login.ftl":
             return (
               <Login
-                {...{ kcContext, i18n, Template, classes }}
+                {...{ kcContext, i18n, Template }}
                 doUseDefaultCss={true}
               />
             );
           case "register.ftl":
             return (
               <Register
-                {...{ kcContext, i18n, Template, classes }}
+                {...{ kcContext, i18n, Template }}
                 doUseDefaultCss={true}
               />
             );
           case "register-user-profile.ftl":
             return (
               <RegisterUserProfile
-                {...{ kcContext, i18n, Template, classes }}
+                {...{ kcContext, i18n, Template }}
                 doUseDefaultCss={true}
               />
             );
           case "terms.ftl":
             return (
               <Terms
-                {...{ kcContext, i18n, Template, classes }}
+                {...{ kcContext, i18n, Template }}
                 doUseDefaultCss={true}
               />
             );
@@ -85,7 +85,7 @@ export default function KcApp(props: { kcContext: KcContext }) {
           case "info.ftl":
             return (
               <Info
-                {...{ kcContext, i18n, classes }}
+                {...{ kcContext, i18n }}
                 Template={lazy(() => import("keycloakify/login/Template"))}
                 doUseDefaultCss={true}
               />
@@ -93,7 +93,7 @@ export default function KcApp(props: { kcContext: KcContext }) {
           default:
             return (
               <Fallback
-                {...{ kcContext, i18n, classes }}
+                {...{ kcContext, i18n }}
                 Template={Template}
                 doUseDefaultCss={true}
               />
