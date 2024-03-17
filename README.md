@@ -1,31 +1,24 @@
 <p align="center">
-    <i>🚀 A starter/demo project for <a href="https://keycloakify.dev">Keycloakify</a> v9 🚀</i>
+    <i>🚀 Based On <a href="https://keycloakify.dev">Keycloakify</a> v9 🚀</i>
     <br/>
-    <br/>
-    <img src="https://github.com/codegouvfr/keycloakify-starter/workflows/ci/badge.svg?branch=main">
-    <br/>
-    <br/>
-    <a href="https://starter.keycloakify.dev">Authenticated React SPA</a>
 </p>
 
 # Introduction
 
-This repo constitutes an easily reusable setup for a Keycloak theme project OR for a Vite SPA React App that generates a
-Keycloak theme that goes along with it.
-If you are only looking to create a Keycloak theme (and not a Keycloak theme and an App that share the same codebase) there are a lot of things that you can remove from this starter: [Please read this section of the README](#standalone-keycloak-theme).
+My personal playground to build a Keycloak theme using Keycloakify.
 
 This starter is based on Vite. There is also [a Webpack based starter](https://github.com/keycloakify/keycloakify-starter-cra).
 
 # Quick start
 
 ```bash
-git clone https://github.com/keycloakify/keycloakify-starter
+git clone git@github.com:dhohner/keycloak-theme-playground.git
 
-cd keycloakify-starter
+cd keycloak-theme-playground
 
 pnpm i # install dependencies (it's like npm install)
 
-pnpm run storybook # Start Storybook
+pnpm storybook # Start Storybook
                # This is by far the best way to develop your theme
                # This enable to quickly see your pages in isolation and in different states.
                # You can create stories even for pages that you haven't explicitly overloaded. See src/keycloak-theme/login/pages/LoginResetPassword.stories.tsx
@@ -51,21 +44,11 @@ npx download-builtin-keycloak-theme # For downloading the default theme (as a re
                                     # Look for the files in dist_keycloak/src/main/resources/theme/{base,keycloak}
 ```
 
-# Theme variant
-
-Keycloakify enables you to create different variant for a single theme.
-This enable you to have a single jar that embed two or more theme variant.
-
-![Theme variant](https://content.gitbook.com/content/FcBKODbZbNDgm0rc6a9K/blobs/9iKgs2rv2Kfb2pbs4dRz/image.png)
-
-You can enable this feature by providing multiple theme name in the Keycloakify build option.
-[See documentation](https://docs.keycloakify.dev/build-options#themename)
-
 # The storybook
 
 ![image](https://github.com/keycloakify/keycloakify/assets/6702424/a18ac1ff-dcfd-4b8c-baed-dcda5aa1d762)
 
 ```bash
 pnpm i
-pnpm run storybook
+pnpm storybook
 ```

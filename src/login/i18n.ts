@@ -4,6 +4,7 @@ export const { useI18n } = createUseI18n({
   de: {
     tan: "Einmalpasswort",
     tanProblem: "Handy nicht verfügbar?",
+    restartLoginTooltip: "Zurück",
   },
 });
 

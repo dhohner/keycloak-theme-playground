@@ -1,9 +1,7 @@
 import { useState } from "react";
-import { clsx } from "keycloakify/tools/clsx";
 import { useConstCallback } from "keycloakify/tools/useConstCallback";
 import type { FormEventHandler } from "react";
 import type { PageProps } from "keycloakify/login/pages/PageProps";
-import { useGetClassName } from "keycloakify/login/lib/useGetClassName";
 import type { KcContext } from "../kcContext";
 import type { I18n } from "../i18n";
 import { Button } from "@/components/ui/button";
@@ -18,11 +16,6 @@ export default function LoginTan(
   props: PageProps<Extract<KcContext, { pageId: "login-tan.ftl" }>, I18n>,
 ) {
   const { kcContext, i18n, doUseDefaultCss, Template, classes } = props;
-
-  const { getClassName } = useGetClassName({
-    doUseDefaultCss,
-    classes,
-  });
 
   const { realm, url, login } = kcContext;
 
@@ -121,22 +114,34 @@ export default function LoginTan(
                     href={url.loginResetCredentialsUrl}
                     className="cursor-pointer font-bold text-slate-800"
                   >
-                    {msg("tanProblem")}
+                    {msgStr("tanProblem")}
                   </a>
                 </span>
               </div>
             )}
             <div id="kc-form-buttons" className="mx-auto max-w-[420px]">
-              <Button
-                tabIndex={2}
-                className="h-14 w-full text-2xl"
-                name="login"
-                id="kc-login"
-                type="submit"
-                disabled={isLoginButtonDisabled}
-              >
-                {msgStr("doLogIn")}
-              </Button>
+              <div className="flex w-full justify-between px-8">
+                <Button
+                  className="h-8 self-center text-2xl"
+                  type="reset"
+                  tabIndex={5}
+                  variant={"link"}
+                >
+                  <a id="reset-login" href={url.loginRestartFlowUrl}>
+                    {msgStr("restartLoginTooltip")}
+                  </a>
+                </Button>
+                <Button
+                  tabIndex={2}
+                  className="h-14 w-2/3 text-2xl"
+                  name="login"
+                  id="kc-login"
+                  type="submit"
+                  disabled={isLoginButtonDisabled}
+                >
+                  {msgStr("doLogIn")}
+                </Button>
+              </div>
             </div>
           </form>
         </div>
