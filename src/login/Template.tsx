@@ -106,7 +106,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
               )}
             <div className="flex justify-between divide-x">
               <img src={loginUrl} alt="Mobile Login" width={268} />
-              <div className="pl-12">
+              <div className="pl-12 flex-1">
                 <header className={getClassName("kcFormHeaderClass")}>
                   {!(
                     auth !== undefined &&
