@@ -6,17 +6,11 @@ import { useGetClassName } from "keycloakify/login/lib/useGetClassName";
 import type { KcContext } from "../kcContext";
 import type { I18n } from "../i18n";
 import { Button } from "@/components/ui/button";
-
-const my_custom_param = new URL(window.location.href).searchParams.get(
-  "my_custom_param"
-);
-
-if (my_custom_param !== null) {
-  console.log("my_custom_param:", my_custom_param);
-}
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export default function Login(
-  props: PageProps<Extract<KcContext, { pageId: "login.ftl" }>, I18n>
+  props: PageProps<Extract<KcContext, { pageId: "login.ftl" }>, I18n>,
 ) {
   const { kcContext, i18n, doUseDefaultCss, Template, classes } = props;
 
@@ -65,9 +59,13 @@ export default function Login(
       headerNode={msg("doLogIn")}
       infoNode={
         <div id="kc-registration">
-          <span>
+          <span className="flex justify-center gap-1 text-sm">
             {msg("noAccount")}
-            <a tabIndex={6} href={url.registrationUrl}>
+            <a
+              tabIndex={6}
+              href={url.registrationUrl}
+              className="font-semibold"
+            >
               {msg("doRegister")}
             </a>
           </span>
@@ -76,167 +74,93 @@ export default function Login(
     >
       <div id="kc-form">
         <div id="kc-form-wrapper">
-          <div>
-            <hr />
-            <form
-              id="kc-form-login"
-              onSubmit={onSubmit}
-              action={url.loginAction}
-              method="post"
-            >
-              <div className="mx-auto max-w-[368px] pt-5">
-                <div className={getClassName("kcFormGroupClass")}>
-                  {!usernameHidden &&
-                    (() => {
-                      const label = !realm.loginWithEmailAllowed
-                        ? "username"
-                        : realm.registrationEmailAsUsername
+          <form
+            id="kc-form-login"
+            onSubmit={onSubmit}
+            action={url.loginAction}
+            method="post"
+          >
+            <div className="mx-auto max-w-[368px] pt-5">
+              <div className="grid w-full max-w-sm items-center gap-1.5 pb-3">
+                {!usernameHidden &&
+                  (() => {
+                    const label = !realm.loginWithEmailAllowed
+                      ? "username"
+                      : realm.registrationEmailAsUsername
                         ? "email"
                         : "usernameOrEmail";
 
-                      const autoCompleteHelper: typeof label =
-                        label === "usernameOrEmail" ? "username" : label;
+                    const autoCompleteHelper: typeof label =
+                      label === "usernameOrEmail" ? "username" : label;
 
-                      return (
-                        <>
-                          <label
-                            htmlFor={autoCompleteHelper}
-                            className={getClassName("kcLabelClass")}
-                          >
-                            {msg(label)}
-                          </label>
-                          <input
-                            tabIndex={1}
-                            id={autoCompleteHelper}
-                            className={getClassName("kcInputClass")}
-                            //NOTE: This is used by Google Chrome auto fill so we use it to tell
-                            //the browser how to pre fill the form but before submit we put it back
-                            //to username because it is what keycloak expects.
-                            name={autoCompleteHelper}
-                            defaultValue={login.username ?? ""}
-                            type="text"
-                            autoFocus={true}
-                            autoComplete="off"
-                          />
-                        </>
-                      );
-                    })()}
-                </div>
-                {realm.password && (
-                  <div className={getClassName("kcFormGroupClass")}>
-                    <label
-                      htmlFor="password"
-                      className={getClassName("kcLabelClass")}
-                    >
-                      {msg("password")}
-                    </label>
-                    <input
-                      tabIndex={2}
-                      id="password"
-                      className={getClassName("kcInputClass")}
-                      name="password"
-                      type="password"
-                      autoComplete="off"
-                    />
-                  </div>
-                )}
-                <div
-                  className={clsx(
-                    getClassName("kcFormGroupClass"),
-                    getClassName("kcFormSettingClass")
-                  )}
-                >
-                  <div id="kc-form-options">
-                    {realm.rememberMe && !usernameHidden && (
-                      <div className="checkbox">
-                        <label>
-                          <input
-                            tabIndex={3}
-                            id="rememberMe"
-                            name="rememberMe"
-                            type="checkbox"
-                            {...(login.rememberMe === "on"
-                              ? {
-                                  checked: true,
-                                }
-                              : {})}
-                          />
-                          {msg("rememberMe")}
-                        </label>
-                      </div>
-                    )}
-                  </div>
-                  <div className={getClassName("kcFormOptionsWrapperClass")}>
-                    {realm.resetPasswordAllowed && (
-                      <span>
-                        <a tabIndex={5} href={url.loginResetCredentialsUrl}>
-                          {msg("doForgotPassword")}
-                        </a>
-                      </span>
-                    )}
-                  </div>
-                </div>
+                    return (
+                      <>
+                        <Label htmlFor={autoCompleteHelper}>{msg(label)}</Label>
+                        <Input
+                          tabIndex={1}
+                          id={autoCompleteHelper}
+                          //NOTE: This is used by Google Chrome auto fill so we use it to tell
+                          //the browser how to pre fill the form but before submit we put it back
+                          //to username because it is what keycloak expects.
+                          name={autoCompleteHelper}
+                          defaultValue={login.username ?? ""}
+                          type="text"
+                          autoFocus={true}
+                          autoComplete="off"
+                          placeholder={msgStr(label)}
+                        />
+                      </>
+                    );
+                  })()}
               </div>
-              <div
-                id="kc-form-buttons"
-                className="flex justify-end"
-              >
-                <input
-                  type="hidden"
-                  id="id-hidden-input"
-                  name="credentialId"
-                  {...(auth?.selectedCredential !== undefined
-                    ? {
-                        value: auth.selectedCredential,
-                      }
-                    : {})}
-                />
-                <Button
-                  tabIndex={4}
-                  className="h-14 w-2/3 text-2xl"
-                  name="login"
-                  id="kc-login"
-                  type="submit"
-                  disabled={isLoginButtonDisabled}
-                >
-                  {msgStr("doLogIn")}
-                </Button>
-              </div>
-            </form>
-          </div>
-        </div>
-        {realm.password && social.providers !== undefined && (
-          <div
-            id="kc-social-providers"
-            className={clsx(
-              getClassName("kcFormSocialAccountContentClass"),
-              getClassName("kcFormSocialAccountClass")
-            )}
-          >
-            <ul
-              className={clsx(
-                getClassName("kcFormSocialAccountListClass"),
-                social.providers.length > 4 &&
-                  getClassName("kcFormSocialAccountDoubleListClass")
+              {realm.password && (
+                <div className="grid w-full max-w-sm items-center gap-1.5 pb-2">
+                  <Label htmlFor="password">{msg("password")}</Label>
+                  <Input
+                    tabIndex={2}
+                    id="password"
+                    name="password"
+                    type="password"
+                    autoComplete="off"
+                    placeholder={msgStr("password")}
+                  />
+                </div>
               )}
-            >
-              {social.providers.map((p) => (
-                <li
-                  key={p.providerId}
-                  className={getClassName("kcFormSocialAccountListLinkClass")}
-                >
-                  <a
-                    href={p.loginUrl}
-                    id={`zocial-${p.alias}`}
-                    className={clsx("zocial", p.providerId)}
-                  >
-                    <span>{p.displayName}</span>
+              {realm.resetPasswordAllowed && (
+                <span className="flex justify-end text-sm">
+                  <a tabIndex={5} href={url.loginResetCredentialsUrl}>
+                    {msg("doForgotPassword")}
                   </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+                </span>
+              )}
+            </div>
+            <div className="pt-4">
+              <hr />
+            </div>
+            <div id="kc-form-buttons" className="mx-auto max-w-[368px] pt-5">
+              <Input
+                type="hidden"
+                id="id-hidden-input"
+                name="credentialId"
+                {...(auth?.selectedCredential !== undefined
+                  ? {
+                      value: auth.selectedCredential,
+                    }
+                  : {})}
+              />
+              <Button
+                tabIndex={4}
+                className="w-full"
+                name="login"
+                id="kc-login"
+                type="submit"
+                disabled={isLoginButtonDisabled}
+              >
+                {msgStr("doLogIn")}
+              </Button>
+            </div>
+          </form>
+        </div>
       </div>
     </Template>
   );
