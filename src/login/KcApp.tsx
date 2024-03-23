@@ -46,7 +46,7 @@ export default function KcApp(props: { kcContext: KcContext }) {
             return (
               <Login
                 {...{ kcContext, i18n, Template }}
-                doUseDefaultCss={true}
+                doUseDefaultCss={false}
               />
             );
           case "register.ftl":

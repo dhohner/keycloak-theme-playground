@@ -14,8 +14,6 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
     displayInfo = false,
     displayMessage = true,
     displayRequiredFields = false,
-    displayWide = false,
-    showAnotherWayIfPresent = true,
     headerNode,
     showUsernameNode = null,
     infoNode = null,
@@ -34,14 +32,9 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 
   const { isReady } = usePrepareTemplate({
     doFetchDefaultThemeResources: doUseDefaultCss,
-    styles: [
-      `${url.resourcesCommonPath}/node_modules/patternfly/dist/css/patternfly.min.css`,
-      `${url.resourcesCommonPath}/node_modules/patternfly/dist/css/patternfly-additions.min.css`,
-      `${url.resourcesCommonPath}/lib/zocial/zocial.css`,
-      `${url.resourcesPath}/css/login.css`,
-    ],
+    styles: [`${url.resourcesPath}/css/login.css`],
     htmlClassName: getClassName("kcHtmlClass"),
-    bodyClassName: getClassName("kcBodyClass"),
+    bodyClassName: "h-screen bg-slate-100",
   });
 
   useState(() => {
@@ -53,185 +46,130 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
   }
 
   return (
-    <div className={getClassName("kcLoginClass")}>
-      <div id="kc-header" className="mb-6 text-center">
-        <div
-          id="kc-header-wrapper"
-          className={getClassName("kcHeaderWrapperClass")}
-          style={{ fontFamily: '"Work Sans"' }}
-        >
-          {msg("loginTitleHtml", realm.displayNameHtml)}!
-        </div>
-      </div>
-
-      <div
-        className={clsx(
-          getClassName("kcFormCardClass"),
-          displayWide && getClassName("kcFormCardAccountClass"),
-          "max-w-[768px]",
-        )}
-      >
-        <div id="kc-content">
-          <div id="kc-content-wrapper">
-            {/* App-initiated actions should not see warning messages about the need to complete the action during login. */}
-            {displayMessage &&
-              message !== undefined &&
-              (message.type !== "warning" || !isAppInitiatedAction) && (
-                <div className={clsx("alert", `alert-${message.type}`)}>
-                  {message.type === "success" && (
-                    <span
-                      className={getClassName("kcFeedbackSuccessIcon")}
-                    ></span>
-                  )}
-                  {message.type === "warning" && (
-                    <span
-                      className={getClassName("kcFeedbackWarningIcon")}
-                    ></span>
-                  )}
-                  {message.type === "error" && (
-                    <span
-                      className={getClassName("kcFeedbackErrorIcon")}
-                    ></span>
-                  )}
-                  {message.type === "info" && (
-                    <span className={getClassName("kcFeedbackInfoIcon")}></span>
-                  )}
-                  <span
-                    className="kc-feedback-text"
-                    dangerouslySetInnerHTML={{
-                      __html: message.summary,
-                    }}
-                  />
-                </div>
+    <div className="flex h-screen items-center justify-center">
+      <div className="max-w-[768px] flex-1 rounded-xl border bg-white px-6 py-4 shadow-2xl">
+        {/* App-initiated actions should not see warning messages about the need to complete the action during login. */}
+        {displayMessage &&
+          message !== undefined &&
+          (message.type !== "warning" || !isAppInitiatedAction) && (
+            <div className={clsx("alert", `alert-${message.type}`)}>
+              {message.type === "success" && (
+                <span className={getClassName("kcFeedbackSuccessIcon")}></span>
               )}
-            <div className="flex justify-between divide-x">
-              <img src={loginUrl} alt="Mobile Login" width={268} />
-              <div className="pl-12 flex-1">
-                <header className={getClassName("kcFormHeaderClass")}>
-                  {!(
-                    auth !== undefined &&
-                    auth.showUsername &&
-                    !auth.showResetCredentials
-                  ) ? (
-                    displayRequiredFields ? (
-                      <div className={getClassName("kcContentWrapperClass")}>
-                        <div
-                          className={clsx(
-                            getClassName("kcLabelWrapperClass"),
-                            "subtitle",
-                          )}
-                        >
-                          <span className="subtitle">
-                            <span className="required">*</span>
-                            {msg("requiredFields")}
-                          </span>
-                        </div>
-                        <div className="col-md-10">
-                          <h1 id="kc-page-title">{headerNode}</h1>
-                        </div>
-                      </div>
-                    ) : (
-                      <h1 id="kc-page-title">{headerNode}</h1>
-                    )
-                  ) : displayRequiredFields ? (
-                    <div className={getClassName("kcContentWrapperClass")}>
-                      <div
-                        className={clsx(
-                          getClassName("kcLabelWrapperClass"),
-                          "subtitle",
-                        )}
-                      >
-                        <span className="subtitle">
-                          <span className="required">*</span>{" "}
-                          {msg("requiredFields")}
-                        </span>
-                      </div>
-                      <div className="col-md-10">
-                        {showUsernameNode}
-                        <div className={getClassName("kcFormGroupClass")}>
-                          <div id="kc-username">
-                            <label id="kc-attempted-username">
-                              {auth?.attemptedUsername}
-                            </label>
-                            <a id="reset-login" href={url.loginRestartFlowUrl}>
-                              <div className="kc-login-tooltip">
-                                <i
-                                  className={getClassName("kcResetFlowIcon")}
-                                ></i>
-                                <span className="kc-tooltip-text">
-                                  {msg("restartLoginTooltip")}
-                                </span>
-                              </div>
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ) : (
-                    <>
-                      {showUsernameNode}
-                      <div className={getClassName("kcFormGroupClass")}>
-                        <div id="kc-username">
-                          <label id="kc-attempted-username">
-                            {auth?.attemptedUsername}
-                          </label>
-                          <a id="reset-login" href={url.loginRestartFlowUrl}>
-                            <div className="kc-login-tooltip">
-                              <i
-                                className={getClassName("kcResetFlowIcon")}
-                              ></i>
-                              <span className="kc-tooltip-text">
-                                {msg("restartLoginTooltip")}
-                              </span>
-                            </div>
-                          </a>
-                        </div>
-                      </div>
-                    </>
-                  )}
-                </header>
-                {children}
-              </div>
+              {message.type === "warning" && (
+                <span className={getClassName("kcFeedbackWarningIcon")}></span>
+              )}
+              {message.type === "error" && (
+                <span className={getClassName("kcFeedbackErrorIcon")}></span>
+              )}
+              {message.type === "info" && (
+                <span className={getClassName("kcFeedbackInfoIcon")}></span>
+              )}
+              <span
+                className="kc-feedback-text"
+                dangerouslySetInnerHTML={{
+                  __html: message.summary,
+                }}
+              />
             </div>
-            {auth !== undefined &&
-              auth.showTryAnotherWayLink &&
-              showAnotherWayIfPresent && (
-                <form
-                  id="kc-select-try-another-way-form"
-                  action={url.loginAction}
-                  method="post"
-                  className={clsx(
-                    displayWide && getClassName("kcContentWrapperClass"),
-                  )}
-                >
+          )}
+        <div className="sm:flex sm:divide-x">
+          <img
+            src={loginUrl}
+            className="hidden sm:block"
+            alt="Login Illustration"
+            width={268}
+          />
+          <div className="flex-1 sm:pl-8">
+            <header className="pb-4 text-center text-xl font-semibold">
+              {!(
+                auth !== undefined &&
+                auth.showUsername &&
+                !auth.showResetCredentials
+              ) ? (
+                displayRequiredFields ? (
+                  <div className={getClassName("kcContentWrapperClass")}>
+                    <div
+                      className={clsx(
+                        getClassName("kcLabelWrapperClass"),
+                        "subtitle",
+                      )}
+                    >
+                      <span className="subtitle">
+                        <span className="required">*</span>
+                        {msg("requiredFields")}
+                      </span>
+                    </div>
+                    <div className="col-md-10">
+                      <h1 id="kc-page-title">{headerNode}</h1>
+                    </div>
+                  </div>
+                ) : (
+                  <h1 id="kc-page-title">{headerNode}</h1>
+                )
+              ) : displayRequiredFields ? (
+                <div className={getClassName("kcContentWrapperClass")}>
                   <div
                     className={clsx(
-                      displayWide && [
-                        getClassName("kcFormSocialAccountContentClass"),
-                        getClassName("kcFormSocialAccountClass"),
-                      ],
+                      getClassName("kcLabelWrapperClass"),
+                      "subtitle",
                     )}
                   >
+                    <span className="subtitle">
+                      <span className="required">*</span>{" "}
+                      {msg("requiredFields")}
+                    </span>
+                  </div>
+                  <div className="col-md-10">
+                    {showUsernameNode}
                     <div className={getClassName("kcFormGroupClass")}>
-                      <input type="hidden" name="tryAnotherWay" value="on" />
-                      <a
-                        href="#"
-                        id="try-another-way"
-                        onClick={() => {
-                          document.forms[
-                            "kc-select-try-another-way-form" as never
-                          ].submit();
-                          return false;
-                        }}
-                      >
-                        {msg("doTryAnotherWay")}
+                      <div id="kc-username">
+                        <label id="kc-attempted-username">
+                          {auth?.attemptedUsername}
+                        </label>
+                        <a id="reset-login" href={url.loginRestartFlowUrl}>
+                          <div className="kc-login-tooltip">
+                            <i className={getClassName("kcResetFlowIcon")}></i>
+                            <span className="kc-tooltip-text">
+                              {msg("restartLoginTooltip")}
+                            </span>
+                          </div>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  {showUsernameNode}
+                  <div className={getClassName("kcFormGroupClass")}>
+                    <div id="kc-username">
+                      <label id="kc-attempted-username">
+                        {auth?.attemptedUsername}
+                      </label>
+                      <a id="reset-login" href={url.loginRestartFlowUrl}>
+                        <div className="kc-login-tooltip">
+                          <i className={getClassName("kcResetFlowIcon")}></i>
+                          <span className="kc-tooltip-text">
+                            {msg("restartLoginTooltip")}
+                          </span>
+                        </div>
                       </a>
                     </div>
                   </div>
-                </form>
+                </>
               )}
+            </header>
+            <div className="block sm:hidden">
+              <hr />
+            </div>
+            <div className="flex justify-center sm:hidden">
+              <img src={loginUrl} alt="Login Illustration" width={268} />
+            </div>
+            <hr />
+            {children}
             {displayInfo && (
-              <div id="kc-info" className={getClassName("kcSignUpClass")}>
+              <div id="kc-info" className="pt-3">
                 <div
                   id="kc-info-wrapper"
                   className={getClassName("kcInfoAreaWrapperClass")}
