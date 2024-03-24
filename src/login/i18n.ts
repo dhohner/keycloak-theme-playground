@@ -5,6 +5,8 @@ export const { useI18n } = createUseI18n({
     tan: "Einmalpasswort",
     tanProblem: "Handy nicht verfügbar?",
     restartLoginTooltip: "Zurück",
+    tan_header:
+      "Wir haben Ihnen Ihr Einmalpasswort per SMS zugeschickt. Bitte geben Sie dieses nun einfach ein.",
   },
 });
 

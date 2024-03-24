@@ -5,6 +5,7 @@ import type { PageProps } from "keycloakify/login/pages/PageProps";
 import type { KcContext } from "../kcContext";
 import type { I18n } from "../i18n";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import {
   InputOTP,
   InputOTPGroup,
@@ -15,7 +16,7 @@ import {
 export default function LoginTan(
   props: PageProps<Extract<KcContext, { pageId: "login-tan.ftl" }>, I18n>,
 ) {
-  const { kcContext, i18n, doUseDefaultCss, Template, classes } = props;
+  const { kcContext, i18n, doUseDefaultCss, Template } = props;
 
   const { realm, url, login } = kcContext;
 
@@ -35,7 +36,7 @@ export default function LoginTan(
 
   return (
     <Template
-      {...{ kcContext, i18n, doUseDefaultCss, classes }}
+      {...{ kcContext, i18n, doUseDefaultCss }}
       headerNode={msg("doLogIn")}
     >
       <div id="kc-form">
@@ -46,22 +47,12 @@ export default function LoginTan(
             action={url.loginAction}
             method="post"
           >
-            <div>
-              <hr />
-              <div className="mx-auto max-w-[368px] pt-5 text-2xl">
-                Wir haben Ihnen Ihr Einmalpasswort per SMS zugeschickt. Bitte
-                geben Sie dieses nun einfach ein.
-              </div>
-              <div className="mx-auto flex max-w-[368px] flex-col pt-5">
-                <label
-                  htmlFor="password"
-                  className="self-start text-2xl font-bold text-slate-700"
-                >
-                  {msg("tan")}:
-                </label>
+            <div className="mx-auto max-w-[368px] pt-4">
+              <div className="pb-3">{msgStr("tan_header")}</div>
+              <div className="grid w-full max-w-sm items-center gap-1.5 pb-4">
+                <Label htmlFor="password">{msg("tan")}:</Label>
                 <InputOTP
                   tabIndex={1}
-                  containerClassName="self-start flex items-center gap-2 pt-3"
                   autoFocus
                   name="password"
                   defaultValue={login.password ?? ""}
@@ -71,21 +62,13 @@ export default function LoginTan(
                     <>
                       <InputOTPGroup>
                         {slots.slice(0, 3).map((slot, index) => (
-                          <InputOTPSlot
-                            className="h-16 w-16 text-2xl"
-                            key={index}
-                            {...slot}
-                          />
+                          <InputOTPSlot key={index} {...slot} />
                         ))}{" "}
                       </InputOTPGroup>
                       <InputOTPSeparator />
                       <InputOTPGroup>
                         {slots.slice(3).map((slot, index) => (
-                          <InputOTPSlot
-                            className="h-16 w-16 text-2xl"
-                            key={index}
-                            {...slot}
-                          />
+                          <InputOTPSlot key={index} {...slot} />
                         ))}
                       </InputOTPGroup>
                     </>
@@ -93,36 +76,37 @@ export default function LoginTan(
                 />
               </div>
             </div>
-            <div className="mx-auto max-w-[368px] pt-8 text-2xl">
-              <hr />
-              <div className="pt-8">
-                Haben Sie Probleme beim Login? Dann klicken Sie einfach{" "}
-                <a
-                  tabIndex={3}
-                  className="cursor-pointer font-bold text-slate-800"
-                >
-                  hier
-                </a>{" "}
-                und wir versenden ein neues Passwort!
-              </div>
+            <div className="mx-auto max-w-[368px] pb-3">
+              Haben Sie Probleme beim Login? Dann klicken Sie einfach{" "}
+              <a
+                type="submit"
+                tabIndex={3}
+                className="cursor-pointer font-semibold text-slate-800"
+              >
+                hier
+              </a>{" "}
+              und wir versenden ein neues Passwort!
             </div>
             {realm.resetPasswordAllowed && (
-              <div className="mx-auto max-w-[368px] pt-5 text-2xl">
+              <div className="flex justify-end pb-1 text-sm">
                 <span>
                   <a
                     tabIndex={4}
                     href={url.loginResetCredentialsUrl}
-                    className="cursor-pointer font-bold text-slate-800"
+                    className="cursor-pointer font-semibold text-slate-800"
                   >
                     {msgStr("tanProblem")}
                   </a>
                 </span>
               </div>
             )}
-            <div id="kc-form-buttons" className="mx-auto max-w-[420px]">
-              <div className="flex w-full justify-between px-8">
+            <div className="pb-3">
+              <hr />
+            </div>
+            <div id="kc-form-buttons" className="mx-auto max-w-[420px] pt-5">
+              <div className="flex w-full justify-between">
                 <Button
-                  className="h-8 self-center text-2xl"
+                  className="self-center"
                   type="reset"
                   tabIndex={5}
                   variant={"link"}
@@ -133,7 +117,7 @@ export default function LoginTan(
                 </Button>
                 <Button
                   tabIndex={2}
-                  className="h-14 w-2/3 text-2xl"
+                  className="w-2/3"
                   name="login"
                   id="kc-login"
                   type="submit"
