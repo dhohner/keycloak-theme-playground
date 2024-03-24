@@ -33,8 +33,8 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
   const { isReady } = usePrepareTemplate({
     doFetchDefaultThemeResources: doUseDefaultCss,
     styles: [`${url.resourcesPath}/css/login.css`],
-    htmlClassName: getClassName("kcHtmlClass"),
-    bodyClassName: "h-screen bg-slate-100",
+    htmlClassName: "h-screen",
+    bodyClassName: "bg-slate-100 h-full flex",
   });
 
   useState(() => {
@@ -46,8 +46,8 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
   }
 
   return (
-    <div className="flex h-screen items-center justify-center">
-      <div className="max-w-[768px] flex-1 rounded-xl border bg-white px-6 py-4 shadow-2xl">
+    <div className="flex flex-1 h-full items-center justify-center">
+      <div className="max-w-[768px] max-h-[968px] flex-1 rounded-xl border bg-white px-6 py-4 shadow-2xl">
         {/* App-initiated actions should not see warning messages about the need to complete the action during login. */}
         {displayMessage &&
           message !== undefined &&
@@ -92,7 +92,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                     <div
                       className={clsx(
                         getClassName("kcLabelWrapperClass"),
-                        "subtitle",
+                        "subtitle"
                       )}
                     >
                       <span className="subtitle">
@@ -112,7 +112,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                   <div
                     className={clsx(
                       getClassName("kcLabelWrapperClass"),
-                      "subtitle",
+                      "subtitle"
                     )}
                   >
                     <span className="subtitle">
