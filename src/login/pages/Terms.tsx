@@ -60,7 +60,7 @@ export default function Terms(
       headerNode={msg("termsTitle")}
     >
       <div className="py-4">
-        <div className="h-[468px] overflow-y-auto">
+        <div className="max-h-[468px] sm:max-h-[568px] overflow-y-auto prose">
           <Markdown>{termMarkdown}</Markdown>
         </div>
       </div>
