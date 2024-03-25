@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/input-otp";
 
 export default function LoginTan(
-  props: PageProps<Extract<KcContext, { pageId: "login-tan.ftl" }>, I18n>,
+  props: PageProps<Extract<KcContext, { pageId: "login-tan.ftl" }>, I18n>
 ) {
   const { kcContext, i18n, doUseDefaultCss, Template } = props;
 
@@ -55,7 +55,6 @@ export default function LoginTan(
                   tabIndex={1}
                   autoFocus
                   name="password"
-                  defaultValue={login.password ?? ""}
                   id="password"
                   maxLength={6}
                   render={({ slots }) => (

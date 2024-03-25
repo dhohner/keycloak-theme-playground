@@ -1,6 +1,6 @@
 // Copy pasted from: https://github.com/InseeFrLab/keycloakify/blob/main/src/login/Template.tsx
 
-import { useState, useEffect } from "react";
+import { useState, Suspense } from "react";
 import { clsx } from "keycloakify/tools/clsx";
 import { usePrepareTemplate } from "keycloakify/lib/usePrepareTemplate";
 import { type TemplateProps } from "keycloakify/login/TemplateProps";
@@ -8,6 +8,8 @@ import { useGetClassName } from "keycloakify/login/lib/useGetClassName";
 import type { KcContext } from "./kcContext";
 import type { I18n } from "./i18n";
 import loginUrl from "./assets/login.svg";
+import { SuspenseImg } from "@/components/ui/suspenseImg";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Template(props: TemplateProps<KcContext, I18n>) {
   const {
@@ -28,7 +30,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 
   const { msg } = i18n;
 
-  const { realm, auth, url, message, isAppInitiatedAction } = kcContext;
+  const { auth, url, message, isAppInitiatedAction } = kcContext;
 
   const { isReady } = usePrepareTemplate({
     doFetchDefaultThemeResources: doUseDefaultCss,
@@ -74,12 +76,16 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
             </div>
           )}
         <div className="sm:flex sm:divide-x">
-          <img
-            src={loginUrl}
-            className="hidden sm:block"
-            alt="Login Illustration"
-            width={268}
-          />
+          <div className="hidden sm:flex justify-center">
+            <Suspense fallback={<Skeleton className="w-[268px] h-[268px]" />}>
+              <SuspenseImg
+                src={loginUrl}
+                alt="Login Illustration"
+                width={268}
+                height={268}
+              />
+            </Suspense>
+          </div>
           <div className="flex-1 sm:pl-8">
             <header className="pb-4 text-center text-xl font-semibold">
               {!(
@@ -163,8 +169,15 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
             <div className="block sm:hidden">
               <hr />
             </div>
-            <div className="flex justify-center sm:hidden">
-              <img src={loginUrl} alt="Login Illustration" width={268} />
+            <div className="flex sm:hidden justify-center">
+              <Suspense fallback={<Skeleton className="w-[268px] h-[268px]" />}>
+                <SuspenseImg
+                  src={loginUrl}
+                  alt="Login Illustration"
+                  width={268}
+                  height={268}
+                />
+              </Suspense>
             </div>
             <hr />
             {children}
