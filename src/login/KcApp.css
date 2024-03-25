@@ -64,18 +64,21 @@
         --input: 240 3.7% 15.9%;
         --ring: 240 4.9% 83.9%;
     }
-}
+}  
 
 @layer base {
     * {
         @apply border-border;
     }
+
     body {
         @apply bg-background text-foreground;
     }
+
     #storybook-root {
         @apply h-full;
     }
+    
     #root {
         @apply w-full;
     }

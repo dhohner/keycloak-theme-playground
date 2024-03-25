@@ -1,8 +1,6 @@
 import { useState, type FormEventHandler } from "react";
-import { clsx } from "keycloakify/tools/clsx";
 import { useConstCallback } from "keycloakify/tools/useConstCallback";
 import type { PageProps } from "keycloakify/login/pages/PageProps";
-import { useGetClassName } from "keycloakify/login/lib/useGetClassName";
 import type { KcContext } from "../kcContext";
 import type { I18n } from "../i18n";
 import { Button } from "@/components/ui/button";
@@ -10,14 +8,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 export default function Login(
-  props: PageProps<Extract<KcContext, { pageId: "login.ftl" }>, I18n>,
+  props: PageProps<Extract<KcContext, { pageId: "login.ftl" }>, I18n>
 ) {
-  const { kcContext, i18n, doUseDefaultCss, Template, classes } = props;
-
-  const { getClassName } = useGetClassName({
-    doUseDefaultCss,
-    classes,
-  });
+  const { kcContext, i18n, Template, doUseDefaultCss } = props;
 
   const {
     social,
@@ -51,7 +44,7 @@ export default function Login(
 
   return (
     <Template
-      {...{ kcContext, i18n, doUseDefaultCss, classes }}
+      {...{ kcContext, i18n, doUseDefaultCss }}
       displayInfo={
         realm.password && realm.registrationAllowed && !registrationDisabled
       }
@@ -87,8 +80,8 @@ export default function Login(
                     const label = !realm.loginWithEmailAllowed
                       ? "username"
                       : realm.registrationEmailAsUsername
-                        ? "email"
-                        : "usernameOrEmail";
+                      ? "email"
+                      : "usernameOrEmail";
 
                     const autoCompleteHelper: typeof label =
                       label === "usernameOrEmail" ? "username" : label;

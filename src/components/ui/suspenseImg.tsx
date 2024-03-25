@@ -1,7 +1,5 @@
-import React from "react";
-
 const imgCache = {
-  __cache: {} as { [key: string]: any },
+  __cache: {} as { [key: string]: Promise<void> | boolean },
   read(src: string) {
     if (!src) {
       return;

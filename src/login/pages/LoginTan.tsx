@@ -48,7 +48,7 @@ export default function LoginTan(
             method="post"
           >
             <div className="mx-auto max-w-[368px] pt-4">
-              <div className="pb-3">{msgStr("tan_header")}</div>
+              <div className="pb-4">{msgStr("tan_header")}</div>
               <div className="grid w-full max-w-sm items-center gap-1.5 pb-4">
                 <Label htmlFor="password">{msg("tan")}:</Label>
                 <InputOTP
@@ -75,15 +75,15 @@ export default function LoginTan(
                 />
               </div>
             </div>
-            <div className="mx-auto max-w-[368px] pb-3">
-              Haben Sie Probleme beim Login? Dann klicken Sie einfach{" "}
+            <div className="mx-auto max-w-[368px] pb-4">
+              Haben Sie Probleme beim Login? Dann klicken Sie einfach
               <a
                 type="submit"
                 tabIndex={3}
                 className="cursor-pointer font-semibold text-slate-800"
               >
-                hier
-              </a>{" "}
+                &nbsp;hier&nbsp;
+              </a>
               und wir versenden ein neues Passwort!
             </div>
             {realm.resetPasswordAllowed && (

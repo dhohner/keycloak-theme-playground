@@ -1,8 +1,6 @@
-import { clsx } from "keycloakify/tools/clsx";
 import { useRerenderOnStateChange } from "evt/hooks";
 import { Markdown } from "keycloakify/tools/Markdown";
 import type { PageProps } from "keycloakify/login/pages/PageProps";
-import { useGetClassName } from "keycloakify/login/lib/useGetClassName";
 import { evtTermMarkdown } from "keycloakify/login/lib/useDownloadTerms";
 import type { KcContext } from "../kcContext";
 import type { I18n } from "../i18n";
@@ -12,12 +10,7 @@ import { Button } from "@/components/ui/button";
 export default function Terms(
   props: PageProps<Extract<KcContext, { pageId: "terms.ftl" }>, I18n>
 ) {
-  const { kcContext, i18n, doUseDefaultCss, Template, classes } = props;
-
-  const { getClassName } = useGetClassName({
-    doUseDefaultCss,
-    classes,
-  });
+  const { kcContext, i18n, doUseDefaultCss, Template } = props;
 
   const { msg, msgStr } = i18n;
 

@@ -10,6 +10,11 @@ import type { I18n } from "./i18n";
 import loginUrl from "./assets/login.svg";
 import { SuspenseImg } from "@/components/ui/suspenseImg";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { ExclamationTriangleIcon, ResetIcon } from "@radix-ui/react-icons";
+
+const getAlertVariant = (type: string): "destructive" | "default" =>
+  type === "error" ? "destructive" : "default";
 
 export default function Template(props: TemplateProps<KcContext, I18n>) {
   const {
@@ -34,9 +39,9 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 
   const { isReady } = usePrepareTemplate({
     doFetchDefaultThemeResources: doUseDefaultCss,
-    styles: [`${url.resourcesPath}/css/login.css`],
+    styles: [],
     htmlClassName: "h-screen",
-    bodyClassName: "bg-slate-100 h-full flex",
+    bodyClassName: "bg-slate-200 h-full flex",
   });
 
   useState(() => {
@@ -54,29 +59,19 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
         {displayMessage &&
           message !== undefined &&
           (message.type !== "warning" || !isAppInitiatedAction) && (
-            <div className={clsx("alert", `alert-${message.type}`)}>
-              {message.type === "success" && (
-                <span className={getClassName("kcFeedbackSuccessIcon")}></span>
-              )}
-              {message.type === "warning" && (
-                <span className={getClassName("kcFeedbackWarningIcon")}></span>
-              )}
-              {message.type === "error" && (
-                <span className={getClassName("kcFeedbackErrorIcon")}></span>
-              )}
-              {message.type === "info" && (
-                <span className={getClassName("kcFeedbackInfoIcon")}></span>
-              )}
-              <span
-                className="kc-feedback-text"
-                dangerouslySetInnerHTML={{
-                  __html: message.summary,
-                }}
-              />
+            <div className="pb-5">
+              <Alert variant={getAlertVariant(message.type)}>
+                <div className="flex items-center gap-5">
+                  <ExclamationTriangleIcon className="h-5 w-5" />
+                  <AlertDescription className="font-semibold">
+                    {message.summary}
+                  </AlertDescription>
+                </div>
+              </Alert>
             </div>
           )}
         <div className="sm:flex sm:divide-x">
-          <div className="hidden sm:flex justify-center">
+          <div className="hidden sm:flex flex-col">
             <Suspense fallback={<Skeleton className="w-[268px] h-[268px]" />}>
               <SuspenseImg
                 src={loginUrl}
@@ -85,6 +80,11 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                 height={268}
               />
             </Suspense>
+            <span className="mt-auto flex justify-center gap-1 text-sm">
+              <span className="font-semibold">&copy;</span>
+              {new Date().getFullYear()}
+              <p className="font-semibold">ACME</p>
+            </span>
           </div>
           <div className="flex-1 sm:pl-8">
             <header className="pb-4 text-center text-xl font-semibold">
@@ -106,7 +106,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                         {msg("requiredFields")}
                       </span>
                     </div>
-                    <div className="col-md-10">
+                    <div>
                       <h1 id="kc-page-title">{headerNode}</h1>
                     </div>
                   </div>
@@ -126,7 +126,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                       {msg("requiredFields")}
                     </span>
                   </div>
-                  <div className="col-md-10">
+                  <div>
                     {showUsernameNode}
                     <div className={getClassName("kcFormGroupClass")}>
                       <div id="kc-username">
@@ -149,17 +149,15 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                 <>
                   {showUsernameNode}
                   <div className={getClassName("kcFormGroupClass")}>
-                    <div id="kc-username">
+                    <div
+                      id="kc-username"
+                      className="flex justify-center items-center gap-2"
+                    >
                       <label id="kc-attempted-username">
                         {auth?.attemptedUsername}
                       </label>
                       <a id="reset-login" href={url.loginRestartFlowUrl}>
-                        <div className="kc-login-tooltip">
-                          <i className={getClassName("kcResetFlowIcon")}></i>
-                          <span className="kc-tooltip-text">
-                            {msg("restartLoginTooltip")}
-                          </span>
-                        </div>
+                        <ResetIcon className="h-5 w-5"></ResetIcon>
                       </a>
                     </div>
                   </div>
@@ -183,12 +181,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
             {children}
             {displayInfo && (
               <div id="kc-info" className="pt-3">
-                <div
-                  id="kc-info-wrapper"
-                  className={getClassName("kcInfoAreaWrapperClass")}
-                >
-                  {infoNode}
-                </div>
+                {infoNode}
               </div>
             )}
           </div>
