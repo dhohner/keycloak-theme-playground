@@ -73,12 +73,10 @@
     body {
         @apply bg-background text-foreground;
     }
-}
-
-.my-font {
-    font-family: "Work Sans";
-}
-
-#storybook-root {
-    height: 100%;;
+    #storybook-root {
+        @apply h-full;
+    }
+    #root {
+        @apply w-full;
+    }
 }
