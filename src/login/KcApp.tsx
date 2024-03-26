@@ -1,6 +1,6 @@
 import "./KcApp.css";
 import { lazy, Suspense } from "react";
-import Fallback, { type PageProps } from "keycloakify/login";
+import Fallback from "keycloakify/login";
 import type { KcContext } from "./kcContext";
 import { useI18n } from "./i18n";
 import Template from "./Template";

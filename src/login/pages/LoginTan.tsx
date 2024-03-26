@@ -18,7 +18,7 @@ export default function LoginTan(
 ) {
   const { kcContext, i18n, doUseDefaultCss, Template } = props;
 
-  const { realm, url, login } = kcContext;
+  const { realm, url } = kcContext;
 
   const { msg, msgStr } = i18n;
 

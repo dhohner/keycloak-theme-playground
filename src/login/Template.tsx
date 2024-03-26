@@ -71,7 +71,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
             </div>
           )}
         <div className="sm:flex sm:divide-x">
-          <div className="hidden sm:flex flex-col">
+          <div className="hidden sm:flex justify-center">
             <Suspense fallback={<Skeleton className="w-[268px] h-[268px]" />}>
               <SuspenseImg
                 src={loginUrl}
@@ -80,11 +80,6 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                 height={268}
               />
             </Suspense>
-            <span className="mt-auto flex justify-center gap-1 text-sm">
-              <span className="font-semibold">&copy;</span>
-              {new Date().getFullYear()}
-              <p className="font-semibold">ACME</p>
-            </span>
           </div>
           <div className="flex-1 sm:pl-8">
             <header className="pb-4 text-center text-xl font-semibold">
@@ -180,10 +175,21 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
             <hr />
             {children}
             {displayInfo && (
-              <div id="kc-info" className="pt-3">
+              <div id="kc-info" className="pt-2">
                 {infoNode}
               </div>
             )}
+            <span
+              className={clsx({
+                ["pt-1"]: displayInfo,
+                ["pt-2"]: !displayInfo,
+                ["text-xs flex justify-center"]: true,
+              })}
+            >
+              <span className="font-semibold">&copy;</span>
+              {new Date().getFullYear()}
+              <span className="font-semibold">&nbsp;ACME</span>
+            </span>
           </div>
         </div>
       </div>
