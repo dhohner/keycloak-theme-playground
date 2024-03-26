@@ -1,9 +1,9 @@
 import type { Preview } from "@storybook/react";
 import "../src/login/KcApp.css";
+import "./storybook.css"
 
 const preview: Preview = {
   parameters: {
-    actions: { argTypesRegex: "^on[A-Z].*" },
     controls: {
       matchers: {
         color: /(background|color)$/i,

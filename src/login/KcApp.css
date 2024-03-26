@@ -74,10 +74,6 @@
     body {
         @apply bg-background text-foreground;
     }
-
-    #storybook-root {
-        @apply h-full;
-    }
     
     #root {
         @apply w-full;
