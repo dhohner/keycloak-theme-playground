@@ -40,8 +40,8 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
   const { isReady } = usePrepareTemplate({
     doFetchDefaultThemeResources: doUseDefaultCss,
     styles: [],
-    htmlClassName: "h-screen",
-    bodyClassName: "bg-slate-200 h-full flex",
+    htmlClassName: "h-full",
+    bodyClassName: "bg-slate-200 h-full",
   });
 
   useState(() => {
@@ -53,116 +53,29 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
   }
 
   return (
-    <div className="flex flex-1 h-full items-center justify-center">
-      <div className="max-w-[768px] max-h-[968px] flex-1 rounded-xl border bg-white px-6 py-4 shadow-2xl">
-        {/* App-initiated actions should not see warning messages about the need to complete the action during login. */}
-        {displayMessage &&
-          message !== undefined &&
-          (message.type !== "warning" || !isAppInitiatedAction) && (
-            <div className="pb-5">
-              <Alert variant={getAlertVariant(message.type)}>
-                <div className="flex items-center gap-5">
-                  <ExclamationTriangleIcon className="h-5 w-5" />
-                  <AlertDescription className="font-semibold">
-                    {message.summary}
-                  </AlertDescription>
-                </div>
-              </Alert>
-            </div>
-          )}
-        <div className="sm:flex sm:divide-x">
-          <div className="hidden sm:flex justify-center">
-            <Suspense fallback={<Skeleton className="w-[268px] h-[268px]" />}>
-              <SuspenseImg
-                src={loginUrl}
-                alt="Login Illustration"
-                width={268}
-                height={268}
-              />
-            </Suspense>
-          </div>
-          <div className="flex-1 sm:pl-8">
-            <header className="pb-4 text-center text-xl font-semibold">
-              {!(
-                auth !== undefined &&
-                auth.showUsername &&
-                !auth.showResetCredentials
-              ) ? (
-                displayRequiredFields ? (
-                  <div className={getClassName("kcContentWrapperClass")}>
-                    <div
-                      className={clsx(
-                        getClassName("kcLabelWrapperClass"),
-                        "subtitle"
-                      )}
-                    >
-                      <span className="subtitle">
-                        <span className="required">*</span>
-                        {msg("requiredFields")}
-                      </span>
-                    </div>
-                    <div>
-                      <h1 id="kc-page-title">{headerNode}</h1>
-                    </div>
+    <div className="flex flex-col h-full md:px-12">
+      <div className="bg-white shadow-sm h-10 md:rounded-b-2xl flex justify-center items-center">
+        HEADER COMPONENT
+      </div>
+      <div className="flex h-full items-center justify-center md:px-6">
+        <div className="max-w-[768px] max-h-[968px] flex-1 md:rounded-xl border bg-white px-6 py-4 md:shadow-2xl">
+          {/* App-initiated actions should not see warning messages about the need to complete the action during login. */}
+          {displayMessage &&
+            message !== undefined &&
+            (message.type !== "warning" || !isAppInitiatedAction) && (
+              <div className="pb-5">
+                <Alert variant={getAlertVariant(message.type)}>
+                  <div className="flex items-center gap-5">
+                    <ExclamationTriangleIcon className="h-5 w-5" />
+                    <AlertDescription className="font-semibold">
+                      {message.summary}
+                    </AlertDescription>
                   </div>
-                ) : (
-                  <h1 id="kc-page-title">{headerNode}</h1>
-                )
-              ) : displayRequiredFields ? (
-                <div className={getClassName("kcContentWrapperClass")}>
-                  <div
-                    className={clsx(
-                      getClassName("kcLabelWrapperClass"),
-                      "subtitle"
-                    )}
-                  >
-                    <span className="subtitle">
-                      <span className="required">*</span>{" "}
-                      {msg("requiredFields")}
-                    </span>
-                  </div>
-                  <div>
-                    {showUsernameNode}
-                    <div className={getClassName("kcFormGroupClass")}>
-                      <div id="kc-username">
-                        <label id="kc-attempted-username">
-                          {auth?.attemptedUsername}
-                        </label>
-                        <a id="reset-login" href={url.loginRestartFlowUrl}>
-                          <div className="kc-login-tooltip">
-                            <i className={getClassName("kcResetFlowIcon")}></i>
-                            <span className="kc-tooltip-text">
-                              {msg("restartLoginTooltip")}
-                            </span>
-                          </div>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <>
-                  {showUsernameNode}
-                  <div className={getClassName("kcFormGroupClass")}>
-                    <div
-                      id="kc-username"
-                      className="flex justify-center items-center gap-2"
-                    >
-                      <label id="kc-attempted-username">
-                        {auth?.attemptedUsername}
-                      </label>
-                      <a id="reset-login" href={url.loginRestartFlowUrl}>
-                        <ResetIcon className="h-5 w-5"></ResetIcon>
-                      </a>
-                    </div>
-                  </div>
-                </>
-              )}
-            </header>
-            <div className="block sm:hidden">
-              <hr />
-            </div>
-            <div className="flex sm:hidden justify-center">
+                </Alert>
+              </div>
+            )}
+          <div className="sm:flex sm:divide-x">
+            <div className="hidden sm:flex justify-center">
               <Suspense fallback={<Skeleton className="w-[268px] h-[268px]" />}>
                 <SuspenseImg
                   src={loginUrl}
@@ -172,26 +85,118 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                 />
               </Suspense>
             </div>
-            <hr />
-            {children}
-            {displayInfo && (
-              <div id="kc-info" className="pt-2">
-                {infoNode}
+            <div className="flex-1 sm:pl-8">
+              <header className="pb-4 text-center text-xl font-semibold">
+                {!(
+                  auth !== undefined &&
+                  auth.showUsername &&
+                  !auth.showResetCredentials
+                ) ? (
+                  displayRequiredFields ? (
+                    <div className={getClassName("kcContentWrapperClass")}>
+                      <div
+                        className={clsx(
+                          getClassName("kcLabelWrapperClass"),
+                          "subtitle"
+                        )}
+                      >
+                        <span className="subtitle">
+                          <span className="required">*</span>
+                          {msg("requiredFields")}
+                        </span>
+                      </div>
+                      <div>
+                        <h1 id="kc-page-title">{headerNode}</h1>
+                      </div>
+                    </div>
+                  ) : (
+                    <h1 id="kc-page-title">{headerNode}</h1>
+                  )
+                ) : displayRequiredFields ? (
+                  <div className={getClassName("kcContentWrapperClass")}>
+                    <div
+                      className={clsx(
+                        getClassName("kcLabelWrapperClass"),
+                        "subtitle"
+                      )}
+                    >
+                      <span className="subtitle">
+                        <span className="required">*</span>{" "}
+                        {msg("requiredFields")}
+                      </span>
+                    </div>
+                    <div>
+                      {showUsernameNode}
+                      <div className={getClassName("kcFormGroupClass")}>
+                        <div id="kc-username">
+                          <label id="kc-attempted-username">
+                            {auth?.attemptedUsername}
+                          </label>
+                          <a id="reset-login" href={url.loginRestartFlowUrl}>
+                            <div className="kc-login-tooltip">
+                              <i
+                                className={getClassName("kcResetFlowIcon")}
+                              ></i>
+                              <span className="kc-tooltip-text">
+                                {msg("restartLoginTooltip")}
+                              </span>
+                            </div>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    {showUsernameNode}
+                    <div className={getClassName("kcFormGroupClass")}>
+                      <div
+                        id="kc-username"
+                        className="flex justify-center items-center gap-2"
+                      >
+                        <label id="kc-attempted-username">
+                          {auth?.attemptedUsername}
+                        </label>
+                        <a id="reset-login" href={url.loginRestartFlowUrl}>
+                          <ResetIcon className="h-5 w-5"></ResetIcon>
+                        </a>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </header>
+              <div className="block sm:hidden">
+                <hr />
               </div>
-            )}
-            <span
-              className={clsx({
-                ["pt-1"]: displayInfo,
-                ["pt-2"]: !displayInfo,
-                ["text-xs flex justify-center"]: true,
-              })}
-            >
-              <span className="font-semibold">&copy;</span>
-              {new Date().getFullYear()}
-              <span className="font-semibold">&nbsp;ACME</span>
-            </span>
+              <div className="flex sm:hidden justify-center">
+                <Suspense
+                  fallback={<Skeleton className="w-[268px] h-[268px]" />}
+                >
+                  <SuspenseImg
+                    src={loginUrl}
+                    alt="Login Illustration"
+                    width={268}
+                    height={268}
+                  />
+                </Suspense>
+              </div>
+              <hr />
+              {children}
+              {displayInfo && (
+                <div id="kc-info" className="pt-2">
+                  {infoNode}
+                </div>
+              )}
+            </div>
           </div>
         </div>
+      </div>
+      <div className="bg-white md:shadow-2xl h-10 md:rounded-t-2xl flex justify-center items-center">
+        <span className="text-sm flex justify-center">
+          <span className="font-semibold">&copy;</span>
+          {new Date().getFullYear()}
+          <span className="font-semibold">&nbsp;ACME&nbsp;Corp.</span>
+        </span>
       </div>
     </div>
   );

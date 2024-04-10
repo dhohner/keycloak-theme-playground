@@ -74,8 +74,4 @@
     body {
         @apply bg-background text-foreground;
     }
-    
-    #root {
-        @apply w-full;
-    }
 }
