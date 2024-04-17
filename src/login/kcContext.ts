@@ -61,76 +61,12 @@ export const { getKcContext } = createGetKcContext<KcContextExtension>({
       },
     },
     {
-      //NOTE: You will either use register.ftl (legacy) or register-user-profile.ftl, not both
-      pageId: "register-user-profile.ftl",
+      pageId: "login-username.ftl",
       locale: {
         currentLanguageTag: "de",
-      },
-      profile: {
-        attributes: [
-          {
-            validators: {
-              pattern: {
-                pattern: "^[a-zA-Z0-9]+$",
-                "ignore.empty.value": true,
-                // eslint-disable-next-line no-template-curly-in-string
-                "error-message": "${alphanumericalCharsOnly}",
-              },
-            },
-            //NOTE: To override the default mock value
-            value: undefined,
-            name: "username",
-          },
-          {
-            validators: {
-              options: {
-                options: [
-                  "male",
-                  "female",
-                  "non-binary",
-                  "transgender",
-                  "intersex",
-                  "non_communicated",
-                ],
-              },
-            },
-            // eslint-disable-next-line no-template-curly-in-string
-            displayName: "${gender}",
-            annotations: {},
-            required: true,
-            groupAnnotations: {},
-            readOnly: false,
-            name: "gender",
-          },
-        ],
-      },
-    },
-    {
-      pageId: "register.ftl",
-      authorizedMailDomains: [
-        "example.com",
-        "another-example.com",
-        "*.yet-another-example.com",
-        "*.example.com",
-        "hello-world.com",
-      ],
-      // Simulate we got an error with the email field
-      messagesPerField: {
-        printIfExists: <T,>(fieldName: string, className: T) => {
-          console.log({ fieldName });
-          return fieldName === "email" ? className : undefined;
-        },
-        existsError: (fieldName: string) => fieldName === "email",
-        get: (fieldName: string) => `Fake error for ${fieldName}`,
-        exists: (fieldName: string) => fieldName === "email",
-      },
-    },
+      }
+    }
   ],
-  // Defined in vite.config.ts
-  // See: https://docs.keycloakify.dev/environnement-variables
-  mockProperties: {
-    MY_ENV_VARIABLE: "Mocked value",
-  },
 });
 
 export const { kcContext } = getKcContext({

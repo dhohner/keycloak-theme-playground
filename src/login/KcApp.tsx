@@ -6,12 +6,9 @@ import { useI18n } from "./i18n";
 import Template from "./Template";
 
 const Login = lazy(() => import("./pages/Login"));
-// If you can, favor register-user-profile.ftl over register.ftl, see: https://docs.keycloakify.dev/realtime-input-validation
-const Register = lazy(() => import("./pages/Register"));
-const RegisterUserProfile = lazy(() => import("./pages/RegisterUserProfile"));
 const Terms = lazy(() => import("./pages/Terms"));
 const LoginTan = lazy(() => import("./pages/LoginTan"));
-const Info = lazy(() => import("keycloakify/login/pages/Info"));
+const LoginUsername = lazy(() => import("./pages/LoginUsername"));
 
 // This is like adding classes to theme.properties
 // https://github.com/keycloak/keycloak/blob/11.0.3/themes/src/main/resources/theme/keycloak/login/theme.properties
@@ -50,16 +47,9 @@ export default function KcApp(props: { kcContext: KcContext }) {
                 doUseDefaultCss={false}
               />
             );
-          case "register.ftl":
+          case "login-username.ftl":
             return (
-              <Register
-                {...{ kcContext, i18n, Template }}
-                doUseDefaultCss={false}
-              />
-            );
-          case "register-user-profile.ftl":
-            return (
-              <RegisterUserProfile
+              <LoginUsername
                 {...{ kcContext, i18n, Template }}
                 doUseDefaultCss={false}
               />
@@ -71,24 +61,11 @@ export default function KcApp(props: { kcContext: KcContext }) {
                 doUseDefaultCss={false}
               />
             );
-          // Removes those pages in you project. They are included to show you how to implement keycloak pages
-          // that are not yes implemented by Keycloakify.
-          // See: https://docs.keycloakify.dev/limitations#some-pages-still-have-the-default-theme.-why
           case "login-tan.ftl":
             return (
               <LoginTan
                 {...{ kcContext, i18n, Template }}
                 doUseDefaultCss={false}
-              />
-            );
-          // We choose to use the default Template for the Info page and to download the theme resources.
-          // This is just an example to show you what is possible. You likely don't want to keep this as is.
-          case "info.ftl":
-            return (
-              <Info
-                {...{ kcContext, i18n }}
-                Template={lazy(() => import("keycloakify/login/Template"))}
-                doUseDefaultCss={true}
               />
             );
           default:
