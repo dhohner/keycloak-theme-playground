@@ -6,6 +6,7 @@ import type { I18n } from "../i18n";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {UsernameInput} from "@/components/login/usernameInput.tsx";
 
 export default function Login(
   props: PageProps<Extract<KcContext, { pageId: "login.ftl" }>, I18n>
@@ -42,6 +43,14 @@ export default function Login(
     formElement.submit();
   });
 
+  const userNameInputProps = {
+    isHidden: usernameHidden,
+    loginWithEmailAllowed: realm.loginWithEmailAllowed,
+    registrationEmailAsUsername: realm.registrationEmailAsUsername,
+    username: login.username,
+    i18n: { msg, msgStr} as I18n,
+  }
+
   return (
     <Template
       {...{ kcContext, i18n, doUseDefaultCss }}
@@ -74,38 +83,7 @@ export default function Login(
             method="post"
           >
             <div className="mx-auto max-w-[368px] pt-5">
-              <div className="grid w-full max-w-sm items-center gap-1.5 pb-3">
-                {!usernameHidden &&
-                  (() => {
-                    const label = !realm.loginWithEmailAllowed
-                      ? "username"
-                      : realm.registrationEmailAsUsername
-                      ? "email"
-                      : "usernameOrEmail";
-
-                    const autoCompleteHelper: typeof label =
-                      label === "usernameOrEmail" ? "username" : label;
-
-                    return (
-                      <>
-                        <Label htmlFor={autoCompleteHelper}>{msg(label)}</Label>
-                        <Input
-                          tabIndex={1}
-                          id={autoCompleteHelper}
-                          //NOTE: This is used by Google Chrome auto fill so we use it to tell
-                          //the browser how to pre fill the form but before submit we put it back
-                          //to username because it is what keycloak expects.
-                          name={autoCompleteHelper}
-                          defaultValue={login.username ?? ""}
-                          type="text"
-                          autoFocus={true}
-                          autoComplete="off"
-                          placeholder={msgStr(label)}
-                        />
-                      </>
-                    );
-                  })()}
-              </div>
+              <UsernameInput {...userNameInputProps} />
               {realm.password && (
                 <div className="grid w-full max-w-sm items-center gap-1.5 pb-2">
                   <Label htmlFor="password">{msg("password")}</Label>

@@ -1,24 +1,17 @@
 import type { FormEventHandler } from "react";
 import { useState } from "react";
-import { clsx } from "keycloakify/tools/clsx";
 import { useConstCallback } from "keycloakify/tools/useConstCallback";
 import type { PageProps } from "keycloakify/login/pages/PageProps";
-import { useGetClassName } from "keycloakify/login/lib/useGetClassName";
 import type { KcContext } from "../kcContext";
 import type { I18n } from "../i18n";
-import { Label } from "@/components/ui/label.tsx";
-import { Input } from "@/components/ui/input.tsx";
 import { Button } from "@/components/ui/button.tsx";
+import { UsernameInput } from "@/components/login/usernameInput.tsx";
+import { Checkbox } from "@/components/ui/checkbox.tsx";
 
 export default function LoginUsername(
   props: PageProps<Extract<KcContext, { pageId: "login-username.ftl" }>, I18n>
 ) {
   const { kcContext, i18n, doUseDefaultCss, Template, classes } = props;
-
-  const { getClassName } = useGetClassName({
-    doUseDefaultCss,
-    classes,
-  });
 
   const { social, realm, url, usernameHidden, login } = kcContext;
 
@@ -41,6 +34,14 @@ export default function LoginUsername(
 
     formElement.submit();
   });
+
+  const usernameInputProps = {
+    isHidden: usernameHidden,
+    loginWithEmailAllowed: realm.loginWithEmailAllowed,
+    registrationEmailAsUsername: realm.registrationEmailAsUsername,
+    username: login.username,
+    i18n: {msg, msgStr} as I18n,
+  }
 
   return (
     <Template
@@ -72,41 +73,8 @@ export default function LoginUsername(
               action={url.loginAction}
               method="post"
             >
-              <div className="mx-auto max-w-[368px] pt-5">
-                <div className="grid w-full max-w-sm items-center gap-1.5 pb-3">
-                  {!usernameHidden &&
-                    (() => {
-                      const label = !realm.loginWithEmailAllowed
-                        ? "username"
-                        : realm.registrationEmailAsUsername
-                          ? "email"
-                          : "usernameOrEmail";
-
-                      const autoCompleteHelper: typeof label =
-                        label === "usernameOrEmail" ? "username" : label;
-
-                      return (
-                        <>
-                          <Label htmlFor={autoCompleteHelper}>
-                            {msg(label)}
-                          </Label>
-                          <Input
-                            tabIndex={1}
-                            id={autoCompleteHelper}
-                            //NOTE: This is used by Google Chrome autofill, so we use it to tell
-                            //the browser how to prefill the form but before submit we put it back
-                            //to username because it is what keycloak expects.
-                            name={autoCompleteHelper}
-                            defaultValue={login.username ?? ""}
-                            type="text"
-                            autoFocus={true}
-                            autoComplete="off"
-                            placeholder={msgStr(label)}
-                          />
-                        </>
-                      );
-                    })()}
-                </div>
+              <div className="mx-auto pt-5 max-w-[368px]">
+                <UsernameInput {...usernameInputProps} />
                 {realm.resetPasswordAllowed && (
                   <span className="flex justify-end text-sm">
                     <a tabIndex={5} href={url.loginResetCredentialsUrl}>
@@ -116,37 +84,26 @@ export default function LoginUsername(
                 )}
               </div>
               <div className="pt-4">
-                <hr />
+                <hr/>
               </div>
-              {/*ToDo: Style This*/}
-              <div
-                className={clsx(
-                  getClassName("kcFormGroupClass"),
-                  getClassName("kcFormSettingClass")
-                )}
-              >
-                <div id="kc-form-options">
+              <div className="mx-auto max-w-[368px]">
+                <div id="kc-form-options" className="flex justify-end pt-3">
                   {realm.rememberMe && !usernameHidden && (
-                    <div className="checkbox">
-                      <label>
-                        <input
-                          tabIndex={3}
-                          id="rememberMe"
-                          name="rememberMe"
-                          type="checkbox"
-                          {...(login.rememberMe === "on"
-                            ? {
-                                checked: true,
-                              }
-                            : {})}
-                        />
+                    <div className="flex items-center space-x-2">
+                      <Checkbox tabIndex={3} id="rememberMe" {...(login.rememberMe === "on"
+                        ? {
+                          checked: true,
+                        }
+                        : {})} />
+                      <label htmlFor="rememberMe"
+                             className="peer-disabled:cursor-not-allowed text-sm font-medium leading-none peer-disabled:opacity-70">
                         {msg("rememberMe")}
                       </label>
                     </div>
                   )}
                 </div>
               </div>
-              <div id="kc-form-buttons" className="mx-auto max-w-[368px] pt-5">
+              <div id="kc-form-buttons" className="mx-auto pt-5 max-w-[368px]">
                 <Button
                   tabIndex={3}
                   className="w-full"
